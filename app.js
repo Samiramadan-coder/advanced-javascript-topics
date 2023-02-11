@@ -75,4 +75,62 @@ const fib = (num, array = [0, 1]) => {
   return fib(num - 1, [...array, nextToLast + last]);
 }
 
-console.log(fib(12));
+// console.log(fib(12));
+
+
+// what number is in the nth position of the fibonacci sequence?
+
+// without recursion:
+const fibonacciPos = (pos) => {
+  if (pos <= 1) return pos;
+  const seq = [0, 1];
+  for (let i = 2; i <= pos; i++) {
+    const [nextToLast, last] = seq.slice(-2);
+    seq.push(nextToLast + last);
+  }
+  // console.log(seq);
+  return seq[pos];
+}
+
+// console.log(fibonacciPos(8));
+
+// with recursion
+const fibPos = pos => {
+  if (pos < 2) return pos;
+  return fibPos(pos - 1) + fibPos(pos - 2);
+}
+
+// console.log(fibPos(8));
+
+
+// Real-Life Examples:
+
+const artistsByGenre = {
+  jazz: ['Miles Davis', 'john coltrane'],
+  rock: {
+    classic: ['Bob Seger', 'the eagles'],
+    hair: ['def leppard', 'whitesnake', 'poison'],
+    alt: {
+      classic: ['pearl jam', 'the killers'],
+      current: ['joywave', 'sir sly']
+    }
+  },
+  unclassified: {
+    new: ['caamp', 'neil young'],
+    classic: ['seal', 'morcheeba', 'chris stapleton']
+  }
+}
+
+const getArtistNames = (dataObj, arr = []) => {
+  Object.keys(dataObj).forEach(key => {
+    if (Array.isArray(dataObj[key])) {
+      return dataObj[key].forEach(artist => {
+        arr.push(artist);
+      });
+    };
+    getArtistNames(dataObj[key], arr);
+  });
+  return arr;
+}
+
+console.log(getArtistNames(artistsByGenre));
